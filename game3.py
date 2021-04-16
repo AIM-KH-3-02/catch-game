@@ -6,6 +6,9 @@ wn.title("Catch game by @AIM1")
 wn.bgcolor("green")
 wn.setup(width=800, height=600)
 
+score = 0
+lives = 3
+
 #Добавляем игрока
 player = turtle.Turtle()
 player.speed(0)
@@ -38,6 +41,17 @@ for  _ in range(5):
     bomb.goto(100, 250)
     bomb.speed = random.randint(5, 10)
     bombs.append(bomb)
+
+
+txt = turtle.Turtle()
+txt.hideturtle()
+txt.speed(0)
+txt.shape("square")
+txt.color("white")
+txt.penup()
+txt.goto(0, 260)
+font = {"Courier", 24, "normal"}
+txt.write("Score: {}  Lives: {}".format(score, lives), align="center", font=font)
 
 def go_left():
     player.direction = "left"
@@ -79,6 +93,10 @@ while True:
             x = random.randint(-380, 380)
             y = random.randint(300, 400)
             chees.goto(x, y)
+            score += 10
+            txt.clear()
+            txt.write("Score: {}  Lives: {}".format(score, lives), align="center", font=font)
+
 
     #Передвежение бомбы
     for  bomb in bombs:
@@ -96,6 +114,10 @@ while True:
             x = random.randint(-380, 380)
             y = random.randint(300, 400)
             bomb.goto(x, y)
+            score -= 10
+            lives -= 1
+            txt.clear()
+            txt.write("Score: {}  Lives: {}".format(score, lives), align="center", font=font)
 
 
 wn.mainloop()
