@@ -4,7 +4,14 @@ import random
 wn = turtle.Screen()
 wn.title("Catch game by @AIM1")
 wn.bgcolor("green")
+wn.bgpic("sky.gif")
 wn.setup(width=800, height=600)
+wn.register_shape("pygame_left_1.gif")
+wn.register_shape("pygame_right_1.gif")
+wn.register_shape("chees.gif")
+wn.register_shape("bomb.gif")
+wn.register_shape("pygame_idle.gif")
+
 
 score = 0
 lives = 3
@@ -12,7 +19,7 @@ lives = 3
 #Добавляем игрока
 player = turtle.Turtle()
 player.speed(0)
-player.shape("square")
+player.shape("pygame_idle.gif")
 player.color("white")
 player.penup()
 player.goto(0, -250)
@@ -23,7 +30,7 @@ cheess = []
 for  _ in range(5):
     chees = turtle.Turtle()
     chees.speed(0)
-    chees.shape("circle")
+    chees.shape("chees.gif")
     chees.color("blue")
     chees.penup()
     chees.goto(-100, 250)
@@ -35,7 +42,7 @@ bombs = []
 for  _ in range(5):
     bomb = turtle.Turtle()
     bomb.speed(0)
-    bomb.shape("circle")
+    bomb.shape("bomb.gif")
     bomb.color("red")
     bomb.penup()
     bomb.goto(100, 250)
@@ -55,9 +62,11 @@ txt.write("Score: {}  Lives: {}".format(score, lives), align="center", font=font
 
 def go_left():
     player.direction = "left"
+    player.shape("pygame_left_1.gif")
 
 def go_right():
     player.direction = "right"
+    player.shape("pygame_right_1.gif")
 
 wn.listen()
 wn.onkeypress(go_left, "Left")
@@ -89,7 +98,7 @@ while True:
             chees.goto(x, y)
 
         #Проверка collision
-        if chees.distance(player) < 20:
+        if chees.distance(player) < 60:
             x = random.randint(-380, 380)
             y = random.randint(300, 400)
             chees.goto(x, y)
@@ -110,7 +119,7 @@ while True:
             bomb.goto(x, y)
 
         #Проверка collision
-        if bomb.distance(player) < 20:
+        if bomb.distance(player) < 60:
             x = random.randint(-380, 380)
             y = random.randint(300, 400)
             bomb.goto(x, y)
