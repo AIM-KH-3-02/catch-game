@@ -1,4 +1,5 @@
 import turtle
+import winsound
 import random
 
 wn = turtle.Screen()
@@ -15,7 +16,7 @@ wn.register_shape("pygame_idle.gif")
 
 score = 0
 lives = 3
-
+x = 50
 #Добавляем игрока
 player = turtle.Turtle()
 player.speed(0)
@@ -69,20 +70,19 @@ def go_right():
     player.shape("pygame_right_1.gif")
 
 wn.listen()
-wn.onkeypress(go_left, "Left")
-wn.onkeypress(go_right, "Right")
-
+wn.onkey(go_left, "Left")
+wn.onkey(go_right, "Right")
 
 
 while True:
     wn.update()
     #Передвежение игрока
-    if player.direction == "left":
+    if player.direction == "left" and x > -360:
         x = player.xcor()
         x -= 20
         player.setx(x)
 
-    if player.direction == "right":
+    if player.direction == "right" and x < 360:
         x = player.xcor()
         x += 20
         player.setx(x)
@@ -91,18 +91,22 @@ while True:
         y = chees.ycor()
         y -= chees.speed
         chees.sety(y)
-        #Проверка если предмет за пределами экрана
+        #Проверка если предмет за пределами экрана (убавление очки ели это так)
         if y < -300:
             x = random.randint(-380, 380)
             y = random.randint(300, 400)
             chees.goto(x, y)
+            score -= 5
+            txt.clear()
+            txt.write("Score: {}  Lives: {}".format(score, lives), align="center", font=font)
 
-        #Проверка collision
+        #Проверка collision + добавление звука
         if chees.distance(player) < 60:
+            winsound.PlaySound("smb_chees.wav", winsound.SND_ASYNC)
             x = random.randint(-380, 380)
             y = random.randint(300, 400)
             chees.goto(x, y)
-            score += 10
+            score += 20
             txt.clear()
             txt.write("Score: {}  Lives: {}".format(score, lives), align="center", font=font)
 
@@ -118,8 +122,9 @@ while True:
             y = random.randint(300, 400)
             bomb.goto(x, y)
 
-        #Проверка collision
+        #Проверка collision + добавление звука
         if bomb.distance(player) < 60:
+            winsound.PlaySound("smb_kick.wav", winsound.SND_ASYNC)
             x = random.randint(-380, 380)
             y = random.randint(300, 400)
             bomb.goto(x, y)
