@@ -81,10 +81,12 @@ def game_menu():
     turtle.listen()
     turtle.onscreenclick(click1, 1)
 
+
 def star_game():
     score = 0
     lives = 5
     x = 50
+
     #Добавляем игрока
     player = turtle.Turtle()
     player.speed(0)
@@ -140,9 +142,22 @@ def star_game():
     wn.listen()
     wn.onkey(go_left, "Left")
     wn.onkey(go_right, "Right")
+
     game_play = True
+
     while game_play:
         wn.update()
+
+        def go_menu():
+            wn.clear()
+            txt.clear()
+            game_play = False
+            wn.bgpic("sky.gif")
+            game_menu()
+
+        turtle.listen()
+        turtle.onkeypress(go_menu, "q")
+
         #Передвежение игрока
         if player.direction == "left" and player.xcor() > -360:
             x = player.xcor()
@@ -176,6 +191,8 @@ def star_game():
                 score += 20
                 txt.clear()
                 txt.write("Score: {}  Lives: {}".format(score, lives), align="center", font=font)
+                if score == 500:
+                    chees.speed = random.randint(10, 20)
 
 
         #Передвежение бомбы
@@ -201,6 +218,7 @@ def star_game():
                 txt.write("Score: {}  Lives: {}".format(score, lives), align="center", font=font)
                 if lives == 0:
                     wn.clear()
+                    txt.clear()
                     game_play = False
                     wn.bgpic("sky.gif")
                     menu7 = turtle.Turtle()
